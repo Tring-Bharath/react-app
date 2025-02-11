@@ -80,11 +80,13 @@ th
 }
 button
 {
+  color: white;
+  font-weight: 600;
   padding: 10px;
   border-radius: 5px;
 }
 #btn-outer{
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   justify-content: end;
 }
@@ -95,4 +97,29 @@ button
 .row:nth-child(odd)
 {
   background-color: rgb(161, 161, 161);
+}
+.edit
+{
+  background-color: lightblue;
+}
+.delete
+{
+  background-color: red;
+}
+.btn
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.new-button
+{
+  background-color: blue;
+}
+.heading,th
+{
+  margin: 0px;
+  /* background-color: red; */
+  border-top: 3px solid black ;
+  border-bottom: 3px solid black ;
 }
