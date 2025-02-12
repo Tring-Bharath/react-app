@@ -1,77 +1,157 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const numbers = [1, 2, 3, 4];
-const doubled = numbers.map(num => num * 2);
-console.log(numbers)
-console.log(doubled);
-  const users = [
-    { id: 1, name: "Cook", age: 26, skill: "MySQL", designation: "Web Developer", address: "Paris" },
-    { id: 2, name: "David", age: 28, skill: "PHP", designation: "Web Developer", address: "London" },
-    { id: 3, name: "Nathan", age: 28, skill: "PHP", designation: "Web Developer", address: "London" },
-    { id: 4, name: "William", age: 23, skill: "MySQL", designation: "Web Developer", address: "Sydney" }
-  ];
-  const user1 = users.find(user => user.id === 1);
-  const user2 = users.find(user => user.id === 2);
-  const user3 = users.find(user => user.id === 3);
-  const user4 = users.find(user => user.id === 4);
-  // console.log(user);
+  const [users, setUsers] = useState([]);
+  const [show, setShow] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    skill: "",
+    designation: "",
+    address: "",
+  });
+
+  const handleClose = () => {
+    setShow(false);
+    setFormData({ name: "", age: "", skill: "", designation: "", address: "" }); // Reset form
+  };
+  const handleShow = () => setShow(true);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    setUsers([...users, formData]); // Add new user to list
+    handleClose();
+  };
+
+  const deleteUser = (index) => {
+    setUsers(users.filter((_, i) => i !== index));
+  };
+
   return (
     <>
-      <div className="body">
-      <div id="btn-outer">
-      <button className="new-button">Add New</button>
+      {/* Modal for Form Input */}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Enter Details</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group>
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Age</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Age"
+                name="age"
+                value={formData.age}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Skills</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Skills"
+                name="skill"
+                value={formData.skill}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Designation</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Designation"
+                name="designation"
+                value={formData.designation}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSubmit}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Button to Show Modal */}
+      <div className="container mt-3">
+        <Button variant="success" onClick={handleShow}>
+          Add New
+        </Button>
       </div>
-      <table className="table">
-        <tr className='heading'>
-          <th>Name</th>
-          <th>Age</th>
-          <th>skills</th>
-          <th>Desgination</th>
-          <th>Address</th>
-          <th>Actions</th>
-        </tr>
-        <tr className='row'>
-          <td>{user1.name}</td>
-          <td>{user1.age}</td>
-          <td>{user1.skill}</td>
-          <td>{user1.designation}</td>
-          <td>{user1.address}</td>
-          <td className='btn'><button className='edit'>Edit</button>
-          <button className='delete'>Delete</button></td>
-        </tr>
-        <tr className='row'>
-        <td>{user2.name}</td>
-          <td>{user2.age}</td>
-          <td>{user2.skill}</td>
-          <td>{user2.designation}</td>
-          <td>{user2.address}</td>
-          <td className='btn'><button className='edit'>Edit</button><button className='delete'>Delete</button></td>
-        </tr>
-        <tr className='row'>
-        <td>{user3.name}</td>
-          <td>{user3.age}</td>
-          <td>{user3.skill}</td>
-          <td>{user3.designation}</td>
-          <td>{user3.address}</td>
-          <td className='btn'><button className='edit'>Edit</button><button className='delete'>Delete</button></td>
-        </tr>
-        <tr className='row'>
-          <td>{user4.name}</td>
-          <td>{user4.age}</td>
-          <td>{user4.skill}</td>
-          <td>{user4.designation}</td>
-          <td>{user4.address}</td>
-          <td className='btn'><button className='edit'>Edit</button><button className='delete'>Delete</button></td>
-        </tr>
-      </table>
+
+      {/* Table to Display Users */}
+      <div className="container mt-3">
+        <table className="table table-bordered">
+          <thead className="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Skills</th>
+              <th>Designation</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={index}>
+                <td>{user.name}</td>
+                <td>{user.age}</td>
+                <td>{user.skill}</td>
+                <td>{user.designation}</td>
+                <td>{user.address}</td>
+                <td>
+                  <Button variant="danger" onClick={() => deleteUser(index)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+            {users.length === 0 && (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No data available
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
