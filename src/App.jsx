@@ -5,6 +5,10 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+  const numbers = [1, 2, 3, 4];
+const doubled = numbers.map(num => num * 2);
+console.log(numbers)
+console.log(doubled);
   const users = [
     { id: 1, name: "Cook", age: 26, skill: "MySQL", designation: "Web Developer", address: "Paris" },
     { id: 2, name: "David", age: 28, skill: "PHP", designation: "Web Developer", address: "London" },
